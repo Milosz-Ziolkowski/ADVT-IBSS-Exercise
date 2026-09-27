@@ -15,11 +15,13 @@ public class AccountSteps {
     Account account = null;
     private String statement;
 
+    // Create the account from the scenario input
     @Given("^Account exists for Acc No\\. \"([^\"]*)\" with Name \"([^\"]*)\"$")
     public void accountExistsForAccNoWithName(String number, String name) {
         account = new Account(number, name);
     }
 
+    // Convert each row in the data table into a deposit
     @Given("deposits are made")
     public void depositsAreMade(DataTable dataTable) {
         for (List<String> row : dataTable.asLists(String.class)) {
@@ -29,6 +31,7 @@ public class AccountSteps {
         }
     }
 
+    // Convert each row in the data table into a withdrawal
     @Given("withdrawls are made") 
     public void withdrawlsAreMade(DataTable dataTable) {
         for (List<String> row : dataTable.asLists(String.class)) {
@@ -38,11 +41,13 @@ public class AccountSteps {
         }
     }
 
+    // Generate the statement after all account activity
     @When("statement is produced")
     public void statementIsProduced() {
         statement = account.getStatement();
     }
 
+    // Check that each expected piece of text appears in the statement
     @Then("statement includes {string}")
     public void statementIncludes(String expectedStatement) {
         assertTrue(statement.contains(expectedStatement));
